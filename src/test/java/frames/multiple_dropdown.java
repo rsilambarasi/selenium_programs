@@ -1,0 +1,44 @@
+package frames;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class multiple_dropdown {
+
+	public static void main(String[] args) throws Throwable  {
+		WebDriverManager.edgedriver().setup();
+		WebDriver driver=new EdgeDriver();
+		
+		driver.manage().window().maximize();
+		//implicit wait
+		driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
+		
+		driver.get("https://demoapp.skillrary.com/");
+		WebElement DD = driver.findElement(By.xpath("//select[@id='cars']"));
+		Select s=new Select(DD);
+		System.out.println(s.isMultiple());
+		s.selectByIndex(0);
+		Thread.sleep(3000);
+		s.selectByValue("90");
+		Thread.sleep(3000);
+		s.selectByVisibleText("INR 50 - INR 99 ( 1 ) ");
+		Thread.sleep(3000);
+		s.deselectByIndex(0);
+		s.deselectByValue("90");
+		s.deselectByVisibleText("INR 50 - INR 99 ( 1 ) ");
+		List<WebElement> values = s.getAllSelectedOptions();
+		for(WebElement b:values)
+		{
+			System.out.println(b.getText());
+		}
+	}
+
+}
